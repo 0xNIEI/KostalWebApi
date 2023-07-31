@@ -5,7 +5,7 @@ Very Minimalistic Webapi for Kostal Plenticore Plus Photovoltaics Appliance
 
 My Goal was to create a very barebones WebApi with which i could recreate this Frontend with some simple html, css and js:
 
-!(img/ugly_frontend.png)
+![Ugly Frontend](img/ugly_frontend.png)
 
 # Installation / Deployment
 
