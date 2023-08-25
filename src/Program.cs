@@ -102,6 +102,17 @@ namespace KostalWebApi
             })
             .WithName("GetData").RequireCors(MyAllowSpecificOrigins);
 
+            app.Use(async (context, next) =>
+            {
+                context.Response.Headers.Add("Content-Security-Policy", "default-src 'none'; font-src 'none'; img-src 'none'; object-src 'none'; script-src 'none'; style-src 'none'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';");
+                context.Response.Headers.Add("X-Xss-Protection", "1; mode=block");
+                context.Response.Headers.Add("X-Frame-Options", "DENY");
+                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
+
+                await next();
+            });
+
             app.Run();
         }
     }
