@@ -7,6 +7,12 @@ My Goal was to create a very barebones WebApi with which i could recreate this F
 
 ![Ugly Frontend](img/ugly_frontend.png)
 
+# Alternative Frontend
+
+You can build you own frontend for you WebApi, you can take this Repository as a Reference:
+
+[Minimalistic Frontend for KostalWebApi by NIEI](https://github.com/0xNIEI/KostalWebApiFrontend)
+
 # Installation / Deployment
 
 ## Docker
