@@ -43,6 +43,11 @@ namespace KostalWebApi
 
             app.MapGet("/data", async (HttpContext httpContext) =>
             {
+                if (string.IsNullOrWhiteSpace(plentiCoreIpAddress))
+                {
+                    return JsonSerializer.Serialize("Plenticore IP Address not set in Appsettings");
+                }
+
                 var client = new ModbusClient(plentiCoreIpAddress);
 
                 var production = string.Empty;
@@ -104,11 +109,18 @@ namespace KostalWebApi
 
             app.Use(async (context, next) =>
             {
-                context.Response.Headers.Add("Content-Security-Policy", "default-src 'none'; font-src 'none'; img-src 'none'; object-src 'none'; script-src 'none'; style-src 'none'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';");
-                context.Response.Headers.Add("X-Xss-Protection", "1; mode=block");
-                context.Response.Headers.Add("X-Frame-Options", "DENY");
-                context.Response.Headers.Add("X-Content-Type-Options", "nosniff");
-                context.Response.Headers.Add("Referrer-Policy", "strict-origin-when-cross-origin");
+                try
+                {
+                    context.Response.Headers.Append("Content-Security-Policy", "default-src 'none'; font-src 'none'; img-src 'none'; object-src 'none'; script-src 'none'; style-src 'none'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';");
+                    context.Response.Headers.Append("X-Xss-Protection", "1; mode=block");
+                    context.Response.Headers.Append("X-Frame-Options", "DENY");
+                    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+                    context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
+                }
+                catch
+                {
+                    // dont do anything because the headers are already added so we don't care
+                }
 
                 await next();
             });
