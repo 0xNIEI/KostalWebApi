@@ -109,18 +109,15 @@ namespace KostalWebApi
 
             app.Use(async (context, next) =>
             {
-                try
-                {
-                    context.Response.Headers.Append("Content-Security-Policy", "default-src 'none'; font-src 'none'; img-src 'none'; object-src 'none'; script-src 'none'; style-src 'none'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';");
-                    context.Response.Headers.Append("X-Xss-Protection", "1; mode=block");
-                    context.Response.Headers.Append("X-Frame-Options", "DENY");
-                    context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
-                    context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
-                }
-                catch
-                {
-                    // dont do anything because the headers are already added so we don't care
-                }
+                context.Response.Headers.Append("Content-Security-Policy", "default-src 'none'; font-src 'none'; img-src 'none'; object-src 'none'; script-src 'none'; style-src 'none'; connect-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none';");
+                context.Response.Headers.Append("X-Xss-Protection", "1; mode=block");
+                context.Response.Headers.Append("X-Frame-Options", "DENY");
+                context.Response.Headers.Append("X-Content-Type-Options", "nosniff");
+                context.Response.Headers.Append("Referrer-Policy", "strict-origin-when-cross-origin");
+                context.Response.Headers.Append("Permissions-Policy", "accelerometer=(), autoplay=(), display-capture=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()");
+                context.Response.Headers.Append("Cross-Origin-Embedder-Policy", "(require-corp); report-to=\"default\"");
+                context.Response.Headers.Append("Cross-Origin-Opener-Policy", "(same-origin); report-to=\"default\"");
+                context.Response.Headers.Append("Cross-Origin-Resource-Policy", "(same-site)");
 
                 await next();
             });
